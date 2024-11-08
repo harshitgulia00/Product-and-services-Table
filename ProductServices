@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+	tr{
+		height: 45px;
+		border: 1px solid gray;
+	}
+</style>
+<body>
+	<div class="row" style="margin-top: 10px;margin-bottom: 10px;width: 100%;">
+		<div class="col-md-11">
+			<span style="font-size: 25px;">Product And Services table</span>
+		</div>
+		<div class="col-md-1">
+			<button class="btn btn-primary" onclick="add()">Add more</button>
+		</div>
+	</div>
+	<table id="rows">
+		<tr>
+			<th>S.No.</th>
+			<th>Particulars</th>
+			<th>Description</th>
+			<th>HSN</th>
+			<th>Quantity</th>
+			<th>UOM</th>
+			<th>Rate</th>
+			<th>Dis.%</th>
+			<th>GST%</th>
+			<th>NetGST</th>
+			<th>Total</th>
+			<th> </th>
+		</tr>
+		<tr>
+			<td style="width: 5%;"><input value="1" id="sno1" onclick="add()"style="border:1px solid white;width: 90%;" disabled></td>
+			<td style="width: 25%"><input id="particulars1" onkeyup="l(1)" style="border:1px solid silver;width:90%;"></td>
+			<td style="width: 25%"><input id="description1" onkeyup="l(1)" style="border:1px solid black;width: 90%;" placeholder="Write Description"></td>
+			<td style="width: 3%;"><input id="hsn1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="quantity1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 4%;"><input id="uom1" onkeyup="l(1)" style="border:1px solid white;width: 90%;" placeholder="kg"></td>
+			<td style="width: 5%;"><input id="rate1" onkeyup="l(1)" style="border:1px solid white;width: 91%;"></td>
+			<td style="width: 5%;"><input id="discount1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="gst1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="netgst1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 7%;"><input id="total1" onkeyup="l(1)" style="border:1px solid white;width: 90%;"></td>
+		</tr>
+	</table>
+	<script>
+		function l(id) {
+			const quantity = $("#quantity"+id).val();;
+			
+			const rate = $("#rate"+id).val();
+			
+			const discount = $("#discount"+id).val();
+			
+			const gst = $("#gst"+id).val();
+
+			const subtotal = quantity * rate ;
+			const discountAmount = subtotal * (1-(discount/100));
+			const gstAmount = discountAmount * (gst/100);
+			const total = discountAmount + gstAmount;
+
+			var sumOfRow = $("#total"+id).val(total);
+			var gstofrow = $("#netgst"+id).val(gstAmount);
+
+			calculateGrandTotal();
+			}
+
+			function calculateGrandTotal() {
+			let grandTotal = 0;
+			$("input[id^='total']").each(function() {
+				grandTotal += +($(this).val());
+			});
+			$("#GrandTotal").val(grandTotal);
+		}
+
+		var inputcount = 1;
+		function add(){
+			inputcount++;
+			$("#rows").append(`<tr>
+			<td style="width: 5%;"><input id="sno`+inputcount+`" value="`+inputcount+`" onclick="add()"style="border:1px solid white;width: 90%;" disabled></td>
+			<td style="width: 25%"><input id="particulars`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid silver;width:90%;"></td>
+			<td style="width: 25%"><input id="description`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid black;width: 90%;" placeholder="Write Description"></td>
+			<td style="width: 3%;"><input id="hsn`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:	1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="quantity`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 4%;"><input id="uom`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;" placeholder="kg"></td>
+			<td style="width: 5%;"><input id="rate`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 91%;"></td>
+			<td style="width: 5%;"><input id="discount`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="gst`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 5%;"><input id="netgst`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;"></td>
+			<td style="width: 7%;"><input id="total`+inputcount+`" onkeyup="l(`+inputcount+`)" style="border:1px solid white;width: 90%;"></td>
+		</tr>`);
+		}
+	</script>
+	<div class="row" style="margin-top:20px;width:100%;">
+		<div class="col-md-2">
+			<span>toatal amount in words:</span>
+		</div>
+		<div class="col-md-4">
+			<input>
+		</div>
+		<div class="col-md-1">
+			<span>total INR:</span>
+		</div>
+		<div class="col-md-5">
+			<input type="number" name="" id="GrandTotal">
+		</div>
+	</div>
+
+</body>
+</html>
